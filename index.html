@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coding Playground</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kantumruy+Pro:wght@300;400;600;700&family=Moul&family=Moulpali&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/6132/6132222.png">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --header-font: 'Moul', cursive;
+            --model-font: 'Moulpali', cursive;
+            --body-font: 'Kantumruy Pro', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: var(--body-font);
+            background-color: var(--light);
+            color: var(--dark);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Language Toggle */
+        .language-toggle {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 30px;
+            padding: 5px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .language-toggle button {
+            border: none;
+            background: none;
+            padding: 8px 15px;
+            cursor: pointer;
+            font-family: var(--body-font);
+            font-weight: 600;
+            border-radius: 20px;
+        }
+
+        .language-toggle button.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 1000;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .back-to-top:hover {
+            background: var(--accent);
+            transform: translateY(-5px);
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo img {
+            height: 60px;
+            margin-right: 15px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .logo h1 {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .tagline {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--body-font);
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .header-image {
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 80%;
+            opacity: 0.9;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--primary);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-title {
+            font-family: var(--model-font);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* Showcase Section */
+        .showcase {
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            padding: 5rem 2rem;
+            color: white;
+        }
+
+        .showcase-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 3rem;
+        }
+
+        .showcase-text {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .showcase-title {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .showcase-image {
+            flex: 1;
+            min-width: 300px;
+            position: relative;
+        }
+
+        .showcase-image img {
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            animation: float 4s ease-in-out infinite;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .testimonial-text::before {
+            content: '"';
+            font-size: 4rem;
+            position: absolute;
+            top: -20px;
+            left: -15px;
+            color: var(--secondary);
+            opacity: 0.2;
+            font-family: var(--header-font);
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            object-fit: cover;
+        }
+
+        .author-info h4 {
+            font-family: var(--model-font);
+            margin-bottom: 0.2rem;
+        }
+
+        .author-info p {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* CTA Section */
+        .cta {
+            background: var(--accent);
+            color: white;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .cta-title {
+            font-family: var(--header-font);
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-family: var(--header-font);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            opacity: 0.8;
+        }
+
+        .footer-link:hover {
+            opacity: 1;
+            color: var(--accent);
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-image {
+                position: relative;
+                transform: none;
+                height: auto;
+                width: 100%;
+                margin-top: 2rem;
+            }
+
+            .header-content {
+                text-align: center;
+            }
+
+            .header-buttons {
+                justify-content: center;
+            }
+
+            .logo {
+                justify-content: center;
+            }
+
+            .showcase-content {
+                flex-direction: column;
+            }
+
+            .showcase-text {
+                text-align: center;
+            }
+        }
+
+        /* Khmer Language Styles */
+        body.khmer {
+            font-family: 'Kantumruy Pro', sans-serif;
+        }
+
+        body.khmer .section-title,
+        body.khmer .feature-title,
+        body.khmer .showcase-title,
+        body.khmer .cta-title,
+        body.khmer .footer-logo {
+            font-family: 'Moul', cursive;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body class="english">
+    <!-- Language Toggle -->
+    <div class="language-toggle">
+        <button class="active" id="en-btn">EN</button>
+        <button id="kh-btn">KH</button>
+    </div>
+
+    <!-- Back to Top Button -->
+    <div class="back-to-top" id="back-to-top">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-content">
+            <div class="logo">
+                <img src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png" alt="Coding Playground Logo">
+                <h1 class="english">Coding Playground</h1>
+                <h1 class="khmer hidden">កន្លែងលេងកូដ</h1>
+            </div>
+            <p class="tagline english">The ultimate platform for developers to learn, practice, and showcase their coding skills with interactive challenges and projects.</p>
+            <p class="tagline khmer hidden">វេទិកាដ៏ល្អបំផុតសម្រាប់អ្នកអភិវឌ្ឍន៍ដើម្បីរៀន អនុវត្ត និងបង្ហាញជំនាញកូដរបស់ពួកគេជាមួយនឹងការប្រកួតប្រជែង និងគម្រោងអន្តរកម្ម។</p>
+            <div class="header-buttons">
+                <a href="#signup" class="btn btn-primary english">Get Started</a>
+                <a href="#signup" class="btn btn-primary khmer hidden">ចាប់ផ្តើម</a>
+                <a href="#features" class="btn btn-secondary english">Learn More</a>
+                <a href="#features" class="btn btn-secondary khmer hidden">រៀនបន្ថែម</a>
+            </div>
+        </div>
+        <img src="https://cdn-icons-png.flaticon.com/512/6132/6132222.png" alt="Coding Illustration" class="header-image">
+    </header>
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+        <h2 class="section-title english">Features</h2>
+        <h2 class="section-title khmer hidden">លក្ខណៈពិសេស</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h3 class="feature-title english">Interactive Coding</h3>
+                <h3 class="feature-title khmer hidden">កូដអន្តរកម្ម</h3>
+                <p class="english">Write and execute code directly in your browser with our powerful online editor.</p>
+                <p class="khmer hidden">សរសេរ និងអនុវត្តកូដដោយផ្ទាល់នៅក្នុងកម្មវិធីអ៊ីនធឺណិតរបស់យើង។</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-project-diagram"></i>
+                </div>
+                <h3 class="feature-title english">Real Projects</h3>
+                <h3 class="feature-title khmer hidden">គម្រោងពិត</h3>
+                <p class="english">Build portfolio-worthy projects with step-by-step guidance and real-world applications.</p>
+                <p class="khmer hidden">សាងសង់គម្រោងដែលមានតម្លៃសម្រាប់ផលប័ត្រជាមួយនឹងការណែនាំជាជំហានៗ។</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 class="feature-title english">Community Support</h3>
+                <h3 class="feature-title khmer hidden">ការគាំទ្រសហគមន៍</h3>
+                <p class="english">Join a vibrant community of developers to collaborate, share, and grow together.</p>
+                <p class="khmer hidden">ចូលរួមសហគមន៍អ្នកអភិវឌ្ឍន៍ដើម្បីសហការ ចែករំលែក និងរីកចម្រើនជាមួយគ្នា។</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Showcase Section -->
+    <section class="showcase">
+        <div class="showcase-content">
+            <div class="showcase-text">
+                <h2 class="showcase-title english">Learn by Doing</h2>
+                <h2 class="showcase-title khmer hidden">រៀនតាមរយៈការអនុវត្ត</h2>
+                <p class="english">Our hands-on approach ensures you gain practical experience while learning. With over 1000 coding exercises and 50+ projects, you'll build real skills that employers value.</p>
+                <p class="khmer hidden">វិធីសាកសួររបស់យើងធានាថាអ្នកទទួលបានបទពិសោធន៍ជាក់ស្តែងខណៈពេលរៀន។ ជាមួយនឹងលើសពី 1000 លំហាត់កូដ និងគម្រោង 50+ អ្នកនឹងបង្កើតជំនាញពិតដែលនិយោជកឲ្យតម្លៃ។</p>
+                <div class="header-buttons" style="margin-top: 2rem;">
+                    <a href="#projects" class="btn btn-primary english">View Projects</a>
+                    <a href="#projects" class="btn btn-primary khmer hidden">មើលគម្រោង</a>
+                </div>
+            </div>
+            <div class="showcase-image">
+                <img src="https://images.unsplash.com/photo-1669023414162-5bb06bbff0ec?q=80&w=1632&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Learning by doing">
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <h2 class="section-title english">What Our Users Say</h2>
+        <h2 class="section-title khmer hidden">អ្វីដែលអ្នកប្រើប្រាស់របស់យើងនិយាយ</h2>
+        
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-text english">
+                    Coding Playground helped me transition from a beginner to a professional developer. The projects are challenging but achievable.
+                </div>
+                <div class="testimonial-text khmer hidden">
+                    Coding Playground បានជួយខ្ញុំផ្លាស់ប្តូរពីអ្នកចាប់ផ្តើមទៅជាអ្នកអភិវឌ្ឍន៍វិជ្ជាជីវៈ។ គម្រោងគឺជាបញ្ហាប្រឈមប៉ុន្តែអាចសម្រេចបាន។
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="User" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Sophal Chan</h4>
+                        <p class="english">Frontend Developer</p>
+                        <p class="khmer hidden">អ្នកអភិវឌ្ឍន៍ Frontend</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-text english">
+                    The interactive coding environment is fantastic! I can practice anytime, anywhere without setting up complex environments.
+                </div>
+                <div class="testimonial-text khmer hidden">
+                    បរិស្ថានកូដអន្តរកម្មគឺអស្ចារ្យ! ខ្ញុំអាចអនុវត្តន៍គ្រប់ពេលវេលា គ្រប់ទីកន្លែងដោយមិនចាំបាច់កំណត់បរិស្ថានស្មុគស្មាញ។
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Vichea Lim</h4>
+                        <p class="english">Fullstack Developer</p>
+                        <p class="khmer hidden">អ្នកអភិវឌ្ឍន៍ Fullstack</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="testimonial-card">
+                <div class="testimonial-text english">
+                    As a teacher, I love using Coding Playground to demonstrate concepts to my students in real-time.
+                </div>
+                <div class="testimonial-text khmer hidden">
+                    ជាអ្នកគ្រូ ខ្ញុំចូលចិត្តប្រើ Coding Playground ដើម្បីបង្ហាញគំនិតដល់សិស្សរបស់ខ្ញុំជាពេលវេលាពិត។
+                </div>
+                <div class="testimonial-author">
+                    <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="User" class="author-avatar">
+                    <div class="author-info">
+                        <h4>Sreyneath Mao</h4>
+                        <p class="english">Computer Science Teacher</p>
+                        <p class="khmer hidden">គ្រូបង្រៀនវិទ្យាសាស្ត្រកុំព្យូទ័រ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta" id="signup">
+        <div class="cta-content">
+            <h2 class="cta-title english">Ready to Start Coding?</h2>
+            <h2 class="cta-title khmer hidden">ត្រៀមខ្លួនដើម្បីចាប់ផ្តើមកូដ?</h2>
+            <p class="english" style="margin-bottom: 2rem;">Join thousands of developers who are already improving their skills with our platform.</p>
+            <p class="khmer hidden" style="margin-bottom: 2rem;">ចូលរួមជាមួយអ្នកអភិវឌ្ឍន៍រាប់ពាន់នាក់ដែលកំពុងកែលម្អជំនាញរបស់ពួកគេជាមួយនឹងវេទិការបស់យើង។</p>
+            <div class="cta-buttons">
+                <a href="#" class="btn btn-primary english">Sign Up Free</a>
+                <a href="#" class="btn btn-primary khmer hidden">ចុះឈ្មោះដោយឥតគិតថ្លៃ</a>
+                <a href="#" class="btn btn-secondary english">Learn More</a>
+                <a href="#" class="btn btn-secondary khmer hidden">រៀនបន្ថែម</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-logo english">Coding Playground</div>
+            <div class="footer-logo khmer hidden">កន្លែងលេងកូដ</div>
+            
+            <div class="footer-links">
+                <a href="#" class="footer-link english">Home</a>
+                <a href="#" class="footer-link khmer hidden">ទំព័រដើម</a>
+                <a href="#" class="footer-link english">Features</a>
+                <a href="#" class="footer-link khmer hidden">លក្ខណៈពិសេស</a>
+                <a href="#" class="footer-link english">Pricing</a>
+                <a href="#" class="footer-link khmer hidden">តម្លៃ</a>
+                <a href="#" class="footer-link english">About</a>
+                <a href="#" class="footer-link khmer hidden">អំពី</a>
+                <a href="#" class="footer-link english">Contact</a>
+                <a href="#" class="footer-link khmer hidden">ទំនាក់ទំនង</a>
+            </div>
+            
+            <div class="social-links">
+                <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            </div>
+            
+            <p class="copyright english">2025 - All rights reserved. Provide by Mr. Phekdey PHORN</p>
+            <p class="copyright khmer hidden">2025 - រក្សារ​សិទ្ធិ​គ្រប់​យ៉ាង ដោយលោក ផន ភក្ដី។</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language Toggle
+        const enBtn = document.getElementById('en-btn');
+        const khBtn = document.getElementById('kh-btn');
+        
+        enBtn.addEventListener('click', () => {
+            document.body.classList.remove('khmer');
+            document.body.classList.add('english');
+            enBtn.classList.add('active');
+            khBtn.classList.remove('active');
+            
+            document.querySelectorAll('.english').forEach(el => el.classList.remove('hidden'));
+            document.querySelectorAll('.khmer').forEach(el => el.classList.add('hidden'));
+        });
+        
+        khBtn.addEventListener('click', () => {
+            document.body.classList.remove('english');
+            document.body.classList.add('khmer');
+            khBtn.classList.add('active');
+            enBtn.classList.remove('active');
+            
+            document.querySelectorAll('.khmer').forEach(el => el.classList.remove('hidden'));
+            document.querySelectorAll('.english').forEach(el => el.classList.add('hidden'));
+        });
+        
+        // Back to Top Button
+        const backToTopBtn = document.getElementById('back-to-top');
+        
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('visible');
+            } else {
+                backToTopBtn.classList.remove('visible');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // Animation on scroll
+        const animateOnScroll = () => {
+            const elements = document.querySelectorAll('.feature-card, .testimonial-card, .showcase-image');
+            
+            elements.forEach(element => {
+                const elementPosition = element.getBoundingClientRect().top;
+                const screenPosition = window.innerHeight / 1.3;
+                
+                if (elementPosition < screenPosition) {
+                    element.style.opacity = '1';
+                    element.style.transform = 'translateY(0)';
+                }
+            });
+        };
+        
+        // Set initial state for animation
+        document.querySelectorAll('.feature-card, .testimonial-card, .showcase-image').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        });
+        
+        window.addEventListener('scroll', animateOnScroll);
+        window.addEventListener('load', animateOnScroll);
+    </script>
+</body>
+</html>
